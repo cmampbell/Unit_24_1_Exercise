@@ -18,5 +18,3 @@ class Pet(SQLAlchemy):
     age = db.Column(db.Integer)
     notes = db.Column(db.String)
     available = db.Column(db.Boolean, default=True)
-
-

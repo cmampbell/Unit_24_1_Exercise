@@ -8,9 +8,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///pet_adoption'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = 'ItsAWonderfulLife'
+app.config['SECRET_KEY'] = 'AdoptDontShop'
 app.config['DEBUG_TB_INTERCEPT-REDIRECTS'] = False
-# app.run(debug=True)
+app.run(debug=True)
 debug = DebugToolbarExtension(app)
 
 app.app_context().push()
@@ -26,5 +26,13 @@ def show_home_page():
 @app.route('/add', methods=['GET', 'POST'])
 def add_new_pet():
     form = PetForm()
-    
-    return render_template('add_pet.html', form=form)
+    if form.validate_on_submit():
+        data = form.data
+        new_pet = Pet(name=data['name'], species=data['species'], photo_url = data['photo_url'], age=data['age'], notes=data['notes'])
+
+        db.session.add(new_pet)
+        db.session.commit()
+
+        return redirect('/')
+    else:
+        return render_template('add_pet.html', form=form)

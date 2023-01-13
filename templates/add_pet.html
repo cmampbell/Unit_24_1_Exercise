@@ -4,14 +4,18 @@
 
 {% block content %}
 <h1>Add a pet to the adoption site</h1>
-<form>
+<form action="/add" method="POST">
     {% for field in form if field.widget.input_type != 'hidden' %}
     <p>
+        {{ form.hidden_tag() }}
         {{field.label}}
         {{field}}
+        {% for error in field.errors %}
+            {{error}}
+        {% endfor %}
     </p>
     {% endfor %}
-    <button type="submit">Add Pet!</button>
+    <input type="submit" value="Add Pet!">
 </form>
 
 {% endblock %}
