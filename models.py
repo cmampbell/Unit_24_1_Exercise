@@ -6,7 +6,7 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-class Pet(SQLAlchemy):
+class Pet(db.Model):
     '''SQLAlchemy model for websites pets'''
 
     __tablename__ = 'pets'
@@ -18,3 +18,7 @@ class Pet(SQLAlchemy):
     age = db.Column(db.Integer)
     notes = db.Column(db.String)
     available = db.Column(db.Boolean, default=True)
+
+    def __repr__(self):
+        p = self
+        return f'<id = {p.id}, name={p.name}, species={p.species}, photo_url={p.photo_url}, age={p.age}, notes={p.notes}, available={p.available}'
